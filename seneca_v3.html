@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SENECA — Creative Suite</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#000;
+  --bg2:#080808;
+  --bg3:#0f0f0f;
+  --line:rgba(255,255,255,0.08);
+  --line2:rgba(255,255,255,0.04);
+  --text:#e8e8e8;
+  --muted:#888;
+  --dim:#444;
+  --white:#f5f5f5;
+  --r-sm:6px;
+  --r-md:10px;
+  --r-lg:16px;
+  --font-serif:'Cormorant Garamond',Georgia,serif;
+  --font-mono:'Space Mono',monospace;
+}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:var(--font-serif);width:100%;overflow-x:hidden;}
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--dim);border-radius:2px;}
+
+/* NAV */
+.nav{display:flex;align-items:center;justify-content:space-between;padding:0 2.5rem;height:64px;border-bottom:1px solid var(--line);background:rgba(0,0,0,0.97);backdrop-filter:blur(12px);position:sticky;top:0;z-index:100;}
+.logo{font-family:var(--font-mono);font-size:14px;letter-spacing:6px;color:var(--white);font-weight:400;}
+.nav-links{display:flex;gap:32px;}
+.nav-links a{font-family:var(--font-mono);font-size:10px;color:var(--muted);cursor:pointer;letter-spacing:2.5px;text-decoration:none;transition:color .2s;position:relative;}
+.nav-links a::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:1px;background:var(--white);transition:width .3s;}
+.nav-links a:hover{color:var(--white);}
+.nav-links a:hover::after{width:100%;}
+.nav-cta{font-family:var(--font-mono);font-size:10px;padding:9px 22px;border:1px solid var(--dim);border-radius:var(--r-sm);background:transparent;color:var(--muted);cursor:pointer;letter-spacing:2px;transition:all .25s;}
+.nav-cta:hover{border-color:var(--white);color:var(--white);}
+
+/* HERO */
+.hero{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--line);min-height:520px;}
+.hero-l{padding:5rem 3rem;display:flex;flex-direction:column;justify-content:center;border-right:1px solid var(--line);background:var(--bg);}
+.hero-tag{font-family:var(--font-mono);font-size:9px;letter-spacing:4px;color:var(--muted);margin-bottom:1.75rem;display:flex;align-items:center;gap:12px;}
+.hero-tag::before{content:'';width:24px;height:1px;background:var(--dim);}
+.hero h1{font-family:var(--font-serif);font-size:60px;font-weight:300;line-height:1.0;letter-spacing:-1.5px;color:var(--white);margin-bottom:1.5rem;}
+.hero-sub{font-size:16px;color:var(--muted);line-height:2.0;margin-bottom:2.5rem;max-width:400px;font-weight:300;}
+.hero-btns{display:flex;gap:14px;}
+.btn-w{padding:13px 32px;background:var(--white);color:var(--bg);border:none;border-radius:var(--r-sm);cursor:pointer;font-family:var(--font-mono);font-size:11px;letter-spacing:2px;font-weight:700;transition:all .25s;}
+.btn-w:hover{background:#ccc;transform:translateY(-1px);}
+.btn-o{padding:13px 32px;background:transparent;color:var(--muted);border:1px solid var(--dim);border-radius:var(--r-sm);cursor:pointer;font-family:var(--font-mono);font-size:11px;letter-spacing:2px;transition:all .25s;}
+.btn-o:hover{border-color:var(--white);color:var(--white);}
+
+/* HERO SLIDER */
+.hero-r{position:relative;overflow:hidden;background:var(--bg);min-height:480px;}
+.h-track{display:flex;height:100%;transition:transform .7s cubic-bezier(.4,0,.2,1);}
+.h-slide{min-width:100%;height:100%;position:relative;overflow:hidden;}
+.h-slide img{width:100%;height:100%;object-fit:cover;object-position:center top;filter:brightness(.6);transition:transform 8s ease;}
+.h-slide.active img{transform:scale(1.04);}
+.h-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.6) 0%,transparent 50%);}
+.h-caption{position:absolute;bottom:60px;left:24px;}
+.h-cap-tag{font-family:var(--font-mono);font-size:9px;letter-spacing:3px;color:rgba(255,255,255,.5);margin-bottom:5px;}
+.h-cap-title{font-family:var(--font-serif);font-size:22px;font-weight:300;color:rgba(255,255,255,.85);}
+.h-ctr{font-family:var(--font-mono);font-size:10px;color:rgba(255,255,255,.25);position:absolute;top:20px;right:20px;letter-spacing:3px;}
+.h-ctrl{position:absolute;bottom:20px;right:20px;display:flex;align-items:center;gap:8px;}
+.sl-btn{width:36px;height:36px;border:1px solid rgba(255,255,255,.15);background:rgba(0,0,0,.7);color:var(--muted);border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;font-size:14px;backdrop-filter:blur(8px);}
+.sl-btn:hover{border-color:var(--white);color:var(--white);}
+.sl-dots{display:flex;gap:5px;align-items:center;}
+.sd{width:4px;height:4px;border-radius:50%;background:rgba(255,255,255,.2);cursor:pointer;transition:all .3s;}
+.sd.on{background:var(--white);width:16px;border-radius:3px;}
+
+/* STATS */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid var(--line);background:var(--bg2);}
+.stat{padding:2rem 1.5rem;border-right:1px solid var(--line);text-align:center;transition:background .3s;}
+.stat:last-child{border-right:none;}
+.stat:hover{background:var(--bg3);}
+.stat-n{font-family:var(--font-serif);font-size:30px;font-weight:400;color:var(--white);letter-spacing:-0.5px;}
+.stat-l{font-family:var(--font-mono);font-size:9px;letter-spacing:2.5px;color:var(--dim);margin-top:6px;}
+
+/* ABOUT */
+.about{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--line);background:var(--bg);}
+.about-l{padding:4rem 3rem;border-right:1px solid var(--line);}
+.about-r{padding:4rem 3rem;}
+.sec-tag{font-family:var(--font-mono);font-size:9px;letter-spacing:4px;color:var(--muted);margin-bottom:1.5rem;display:flex;align-items:center;gap:12px;}
+.sec-tag::before{content:'';width:20px;height:1px;background:var(--dim);}
+.about-l h2{font-family:var(--font-serif);font-size:34px;font-weight:300;line-height:1.2;color:var(--white);margin-bottom:1.5rem;letter-spacing:-0.5px;}
+.about-l p{font-size:15px;color:var(--muted);line-height:2.0;font-weight:300;}
+.feat-list{display:flex;flex-direction:column;}
+.fi{display:flex;gap:16px;padding:1.25rem 0;border-bottom:1px solid var(--line2);align-items:flex-start;transition:all .2s;}
+.fi:first-child{padding-top:0;}
+.fi:last-child{border-bottom:none;padding-bottom:0;}
+.fi-icon{width:34px;height:34px;border:1px solid var(--line);border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--dim);font-size:15px;transition:all .2s;}
+.fi:hover .fi-icon{border-color:var(--muted);color:var(--white);}
+.fi-title{font-family:var(--font-mono);font-size:11px;letter-spacing:1.5px;color:var(--white);margin-bottom:6px;}
+.fi-desc{font-size:14px;color:var(--muted);line-height:1.8;font-weight:300;}
+
+/* TESTIMONIALS */
+.testi{border-bottom:1px solid var(--line);background:var(--bg2);}
+.testi-header{display:flex;align-items:center;justify-content:space-between;padding:2.5rem 3rem 2rem;border-bottom:1px solid var(--line);}
+.testi-title{font-family:var(--font-serif);font-size:28px;font-weight:300;color:var(--white);letter-spacing:-0.5px;}
+.testi-ctrl-row{display:flex;align-items:center;gap:12px;}
+.testi-track-wrap{overflow:hidden;}
+.testi-track{display:flex;transition:transform .55s cubic-bezier(.4,0,.2,1);}
+.testi-slide{min-width:100%;}
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;padding:24px;}
+.testi-card{background:var(--bg3);padding:1.75rem;display:flex;flex-direction:column;gap:14px;transition:background .2s;border-radius:var(--r-lg);border:1px solid var(--line);}
+.testi-card:hover{background:#141414;}
+.testi-img-wrap{width:100%;aspect-ratio:16/9;overflow:hidden;border-radius:var(--r-md);background:var(--bg2);position:relative;}
+.testi-img-wrap img{width:100%;height:100%;object-fit:cover;object-position:center top;filter:brightness(.65);transition:transform .6s ease,filter .3s;}
+.testi-card:hover .testi-img-wrap img{transform:scale(1.03);filter:brightness(.75);}
+.testi-quote{font-family:var(--font-serif);font-size:15px;color:#bbb;line-height:1.9;font-weight:300;}
+.testi-quote::before{content:'\201C';font-size:28px;color:var(--dim);line-height:0;vertical-align:-10px;margin-right:4px;}
+.testi-author{padding-top:12px;border-top:1px solid var(--line2);}
+.testi-name{font-family:var(--font-mono);font-size:11px;color:var(--text);letter-spacing:1.5px;}
+.testi-role{font-family:var(--font-mono);font-size:9px;color:var(--dim);letter-spacing:1.5px;margin-top:3px;}
+.testi-progress{display:flex;gap:4px;padding:0 24px 1.5rem;}
+.tp{flex:1;height:2px;background:var(--line);border-radius:2px;cursor:pointer;transition:background .2s;}
+.tp.on{background:var(--white);}
+
+/* CTA */
+.cta-section{padding:6rem 2rem;text-align:center;border-bottom:1px solid var(--line);position:relative;overflow:hidden;background:var(--bg);}
+.cta-bg{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:var(--font-mono);font-size:140px;font-weight:700;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,0.04);letter-spacing:20px;pointer-events:none;white-space:nowrap;user-select:none;}
+.cta-inner{position:relative;z-index:1;}
+.cta-section h2{font-family:var(--font-serif);font-size:46px;font-weight:300;color:var(--white);margin-bottom:1rem;letter-spacing:-1.5px;line-height:1.1;}
+.cta-section p{font-size:16px;color:var(--muted);line-height:2.0;margin-bottom:1rem;max-width:420px;margin-left:auto;margin-right:auto;font-weight:300;}
+.cta-price{font-family:var(--font-mono);font-size:11px;color:var(--muted);letter-spacing:2.5px;margin-bottom:2.5rem;}
+.cta-btns{display:flex;gap:14px;justify-content:center;}
+
+/* FOOTER */
+footer{background:var(--bg);position:relative;overflow:hidden;}
+
+.footer-main{
+  padding:3rem 2.5rem 2rem;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:2rem;
+  border-top:1px solid var(--line);
+}
+.f-col-title{font-family:var(--font-mono);font-size:10px;letter-spacing:3px;color:var(--white);margin-bottom:1.2rem;}
+.f-col ul{list-style:none;display:flex;flex-direction:column;gap:10px;}
+.f-col ul li a,.f-col ul li span{font-family:var(--font-mono);font-size:10px;letter-spacing:1px;color:var(--muted);text-decoration:none;cursor:pointer;transition:color .2s;display:block;}
+.f-col ul li a:hover,.f-col ul li span:hover{color:var(--white);}
+.f-col-sub{font-family:var(--font-mono);font-size:9px;letter-spacing:1px;color:var(--dim);margin-bottom:3px;}
+
+.footer-bottom{
+  padding:1.25rem 2.5rem;
+  display:flex;justify-content:space-between;align-items:center;
+  border-top:1px solid var(--line2);
+}
+.f-logo{font-family:var(--font-mono);font-size:13px;letter-spacing:5px;color:var(--dim);}
+.f-copy{font-family:var(--font-mono);font-size:9px;letter-spacing:1px;color:var(--dim);opacity:.4;}
+
+/* slide-up hover panel */
+.f-hover-panel{
+  position:absolute;
+  bottom:0;left:0;right:0;
+  background:var(--bg3);
+  border-top:1px solid var(--line);
+  display:flex;align-items:center;justify-content:center;gap:48px;
+  height:52px;
+  transform:translateY(100%);
+  transition:transform .38s cubic-bezier(.4,0,.2,1);
+  z-index:10;
+}
+footer:hover .f-hover-panel{transform:translateY(0);}
+.f-hover-panel a{
+  font-family:var(--font-mono);font-size:11px;letter-spacing:3px;color:var(--muted);
+  text-decoration:none;cursor:pointer;transition:color .2s;position:relative;
+}
+.f-hover-panel a::after{content:'';position:absolute;bottom:-3px;left:0;width:0;height:1px;background:var(--white);transition:width .3s;}
+.f-hover-panel a:hover{color:var(--white);}
+.f-hover-panel a:hover::after{width:100%;}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
+.hero-l>*{animation:fadeUp .7s ease both;}
+.hero-l>*:nth-child(1){animation-delay:.1s;}
+.hero-l>*:nth-child(2){animation-delay:.2s;}
+.hero-l>*:nth-child(3){animation-delay:.35s;}
+.hero-l>*:nth-child(4){animation-delay:.5s;}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="logo">SENECA</div>
+  <div class="nav-links">
+    <a href="#about">ABOUT</a>
+    <a href="#features">FEATURES</a>
+    <a href="#testi">TESTIMONIALS</a>
+    <a href="#cta">CONTACT</a>
+  </div>
+  <button class="nav-cta">GET LICENSE</button>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-l">
+    <div class="hero-tag">OFFICIAL SOFTWARE LICENSE</div>
+    <h1>One license.<br>Everything<br>unlocked.</h1>
+    <p class="hero-sub">SENECA gives you full access to professional software with a single license, instant activation, and lifetime technical support.</p>
+    <div class="hero-btns">
+      <button class="btn-w">GET STARTED</button>
+      <button class="btn-o">LEARN MORE</button>
+    </div>
+  </div>
+  <div class="hero-r">
+    <div class="h-track" id="ht">
+      <div class="h-slide active">
+        <img src="https://dl-file.cyberlink.com/web/content/b1633/l_photodirector.webp" alt="PhotoDirector" loading="eager">
+        <div class="h-overlay"></div>
+        <div class="h-caption">
+          <div class="h-cap-tag">PHOTO EDITING</div>
+          <div class="h-cap-title">PhotoDirector</div>
+        </div>
+      </div>
+      <div class="h-slide">
+        <img src="https://dl-file.cyberlink.com/web/content/b1633/l_photoshop2021.webp" alt="Photoshop" loading="lazy">
+        <div class="h-overlay"></div>
+        <div class="h-caption">
+          <div class="h-cap-tag">DESIGN SUITE</div>
+          <div class="h-cap-title">Adobe Photoshop</div>
+        </div>
+      </div>
+      <div class="h-slide">
+        <img src="https://dl-file.cyberlink.com/web/content/b1633/l_gimp_ui.webp" alt="GIMP" loading="lazy">
+        <div class="h-overlay"></div>
+        <div class="h-caption">
+          <div class="h-cap-tag">ILLUSTRATION</div>
+          <div class="h-cap-title">GIMP Studio</div>
+        </div>
+      </div>
+    </div>
+    <div class="h-ctr" id="hctr">I / III</div>
+    <div class="h-ctrl">
+      <button class="sl-btn" id="hp">&#8592;</button>
+      <div class="sl-dots" id="hd"></div>
+      <button class="sl-btn" id="hn">&#8594;</button>
+    </div>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat"><div class="stat-n">50K+</div><div class="stat-l">ACTIVE USERS</div></div>
+  <div class="stat"><div class="stat-n">99.8%</div><div class="stat-l">UPTIME</div></div>
+  <div class="stat"><div class="stat-n">24/7</div><div class="stat-l">SUPPORT</div></div>
+  <div class="stat"><div class="stat-n">INSTANT</div><div class="stat-l">ACTIVATION</div></div>
+</div>
+
+<!-- ABOUT -->
+<div class="about" id="about">
+  <div class="about-l">
+    <div class="sec-tag">ABOUT SENECA</div>
+    <h2>Real software,<br>no compromise.</h2>
+    <p>Seneca Creative Suite is an all-in-one creative software for graphic design, illustration, video editing, motion graphics, and professional visual production — built on a permanent license system so you own it fully, with no subscription fees.<br><br>Seneca brings multiple workspaces together in one integrated, high-performance platform, letting creators work more efficiently, stably, and independently from start to finish on any creative project.</p>
+  </div>
+  <div class="about-r" id="features">
+    <div class="sec-tag">WHAT YOU GET</div>
+    <div class="feat-list">
+      <div class="fi">
+        <div class="fi-icon">&#9670;</div>
+        <div><div class="fi-title">OFFICIAL LICENSE</div><div class="fi-desc">Every license is 100% genuine, directly registered, and verifiable with the publisher.</div></div>
+      </div>
+      <div class="fi">
+        <div class="fi-icon">&#9670;</div>
+        <div><div class="fi-title">INSTANT ACTIVATION</div><div class="fi-desc">Automated activation process within minutes after payment confirmation.</div></div>
+      </div>
+      <div class="fi">
+        <div class="fi-icon">&#9670;</div>
+        <div><div class="fi-title">24/7 TECHNICAL SUPPORT</div><div class="fi-desc">Our experts are ready to help anytime through multiple communication channels.</div></div>
+      </div>
+      <div class="fi">
+        <div class="fi-icon">&#9670;</div>
+        <div><div class="fi-title">LIFETIME UPDATES</div><div class="fi-desc">Pay once, enjoy all future updates at no additional cost, forever.</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TESTIMONIALS -->
+<div class="testi" id="testi">
+  <div class="testi-header">
+    <div>
+      <div class="sec-tag" style="margin-bottom:.6rem;">TESTIMONIALS</div>
+      <div class="testi-title">What our users say</div>
+    </div>
+    <div class="testi-ctrl-row">
+      <button class="sl-btn" id="tp2">&#8592;</button>
+      <span style="font-family:var(--font-mono);font-size:10px;color:var(--dim);letter-spacing:2px;" id="tCtr">I / IV</span>
+      <button class="sl-btn" id="tn2">&#8594;</button>
+    </div>
+  </div>
+  <div class="testi-track-wrap">
+    <div class="testi-track" id="tt">
+
+      <div class="testi-slide"><div class="testi-grid">
+        <div class="testi-card">
+          <div class="testi-img-wrap"><img src="https://fastcdn.hoyoverse.com/content-v2/nap/160827/403276c0545b18631838752e0e439050_1019826248885632461.jpg" alt="" loading="lazy"></div>
+          <div class="testi-quote">Seneca changed my entire workflow. The speed and quality I have never seen before anywhere.</div>
+          <div class="testi-author"><div class="testi-name">MARCUS A.</div><div class="testi-role">DIRECTOR · ROMA CORP</div></div>
+        </div>
+        <div class="testi-card">
+          <div class="testi-img-wrap"><img src="https://upload-os-bbs.hoyolab.com/upload/2024/10/16/107525482/2b549fab7011a3eb3418b1095719eadf_4523199988665150454.png?x-oss-process=image%2Fresize%2Cs_1000%2Fauto-orient%2C0%2Finterlace%2C1%2Fformat%2Cwebp%2Fquality%2Cq_70" alt="" loading="lazy"></div>
+          <div class="testi-quote">A genuine license with the best support. I have not found better value anywhere else on the market.</div>
+          <div class="testi-author"><div class="testi-name">JULIA D.</div><div class="testi-role">CEO · CARTHAGO TECH</div></div>
+        </div>
+        <div class="testi-card">
+          <div class="testi-img-wrap"><img src="https://upload-os-bbs.hoyolab.com/upload/2025/11/09/86185875/cd6cc7922cec6d32e79185792b116e49_3662424990393562954.png?x-oss-process=image%2Fresize%2Cs_1000%2Fauto-orient%2C0%2Finterlace%2C1%2Fformat%2Cwebp%2Fquality%2Cq_70" alt="" loading="lazy"></div>
+          <div class="testi-quote">After Seneca, my entire workflow was transformed. Productivity doubled in the first week.</div>
+          <div class="testi-author"><div class="testi-name">GAIUS P.</div><div class="testi-role">CTO · ATHENS DIGITAL</div></div>
+        </div>
+      </div></div>
+
+      <div class="testi-slide"><div class="testi-grid">
+        <div class="testi-card">
+          <div class="testi-img-wrap"><img src="https://4kwallpapers.com/images/walls/thumbs_3t/25942.jpg" alt="" loading="lazy"></div>
+          <div class="testi-quote">Instant activation, support always present. The best digital experience I have had so far.</div>
+          <div class="testi-author"><div class="testi-name">CLAUDIA M.</div><div class="testi-role">FOUNDER · BYZANTIUM IO</div></div>
+        </div>
+        <div class="testi-card">
+          <div class="testi-img-wrap"><img src="https://fastcdn.hoyoverse.com/content-v2/nap/160827/403276c0545b18631838752e0e439050_1019826248885632461.jpg" alt="" loading="lazy"></div>
+          <div class="testi-quote">Buy once and use forever — that is what we all need. Seneca delivered exactly that promise.</div>
+          <div class="testi-author"><div class="testi-name">BRUTUS M.</div><div class="testi-role">VP ENG · SYRACUSE SYS</div></div>
+        </div>
+        <div class="testi-card">
+          <div class="testi-img-wrap"><img src="https://upload-os-bbs.hoyolab.com/upload/2024/10/16/107525482/2b549fab7011a3eb3418b1095719eadf_4523199988665150454.png?x-oss-process=image%2Fresize%2Cs_1000%2Fauto-orient%2C0%2Finterlace%2C1%2Fformat%2Cwebp%2Fquality%2Cq_70" alt="" loading="lazy"></div>
+          <div class="testi-quote">I have never experienced service this good. The Seneca team always responds quickly and thoroughly.</div>
+          <div class="testi-author"><div class="testi-name">LIVIA A.</div><div class="testi-role">MANAGER · MILANO LAB</div></div>
+        </div>
+      </div></div>
+
+      <div class="testi-slide"><div class="testi-grid">
+        <div class="testi-card">
+          <div class="testi-img-wrap"><img src="https://upload-os-bbs.hoyolab.com/upload/2025/11/09/86185875/cd6cc7922cec6d32e79185792b116e49_3662424990393562954.png?x-oss-process=image%2Fresize%2Cs_1000%2Fauto-orient%2C0%2Finterlace%2C1%2Fformat%2Cwebp%2Fquality%2Cq_70" alt="" loading="lazy"></div>
+          <div class="testi-quote">Fair price for top quality. An investment in Seneca is one you will never regret making.</div>
+          <div class="testi-author"><div class="testi-name">TACITUS N.</div><div class="testi-role">HEAD OF IT · GALLIA CO</div></div>
+        </div>
+        <div class="testi-card">
+          <div class="testi-img-wrap"><img src="https://fastcdn.hoyoverse.com/content-v2/nap/160827/403276c0545b18631838752e0e439050_1019826248885632461.jpg" alt="" loading="lazy"></div>
+          <div class="testi-quote">Simplicity and power in one. Clean interface, perfect features, and remarkable support throughout.</div>
+          <div class="testi-author"><div class="testi-name">HORTENSIA V.</div><div class="testi-role">DESIGNER · ETRURIA UX</div></div>
+        </div>
+        <div class="testi-card">
+          <div class="testi-img-wrap"><img src="https://4kwallpapers.com/images/walls/thumbs_3t/25942.jpg" alt="" loading="lazy"></div>
+          <div class="testi-quote">Three years with Seneca and not a single problem. Stability and security that is truly perfect.</div>
+          <div class="testi-author"><div class="testi-name">FLAVIUS S.</div><div class="testi-role">SYSADMIN · HISPANIA NET</div></div>
+        </div>
+      </div></div>
+
+      <div class="testi-slide"><div class="testi-grid">
+        <div class="testi-card">
+          <div class="testi-img-wrap"><img src="https://upload-os-bbs.hoyolab.com/upload/2024/10/16/107525482/2b549fab7011a3eb3418b1095719eadf_4523199988665150454.png?x-oss-process=image%2Fresize%2Cs_1000%2Fauto-orient%2C0%2Finterlace%2C1%2Fformat%2Cwebp%2Fquality%2Cq_70" alt="" loading="lazy"></div>
+          <div class="testi-quote">I have recommended Seneca to all my colleagues. One license for a full year — truly magnificent.</div>
+          <div class="testi-author"><div class="testi-name">CORNELIA S.</div><div class="testi-role">COO · DACIA VENTURES</div></div>
+        </div>
+        <div class="testi-card" style="display:flex;align-items:center;justify-content:center;border-style:dashed;">
+          <div style="text-align:center;">
+            <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:3px;color:var(--dim);margin-bottom:8px;">YOUR REVIEW</div>
+            <div style="font-size:14px;color:var(--dim);">Add your testimonial here.</div>
+          </div>
+        </div>
+        <div class="testi-card" style="display:flex;align-items:center;justify-content:center;border-style:dashed;">
+          <div style="text-align:center;">
+            <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:3px;color:var(--dim);margin-bottom:8px;">YOUR REVIEW</div>
+            <div style="font-size:14px;color:var(--dim);">Add your testimonial here.</div>
+          </div>
+        </div>
+      </div></div>
+
+    </div>
+  </div>
+  <div class="testi-progress" id="tprog"></div>
+</div>
+
+<!-- CTA -->
+<div class="cta-section" id="cta">
+  <div class="cta-bg">SENECA</div>
+  <div class="cta-inner">
+    <div class="sec-tag" style="justify-content:center;margin-bottom:1.5rem;">ONE LICENSE · FOREVER</div>
+    <h2>Ready to start<br>with SENECA?</h2>
+    <p>The best investment for your digital productivity. No recurring subscription — just one smart purchase that lasts a lifetime.</p>
+    <div class="cta-price">~ $294 &nbsp;·&nbsp; PAY ONCE, USE FOREVER</div>
+    <div class="cta-btns">
+      <button class="btn-w">GET LICENSE</button>
+      <button class="btn-o">CONTACT US</button>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-main">
+
+    <div class="f-col">
+      <div class="f-col-title">SUPPORT</div>
+      <ul>
+        <li><a href="#">Help Center</a></li>
+        <li><a href="#">Documentation</a></li>
+        <li><a href="#">Tutorials</a></li>
+        <li><a href="#">Community Forum</a></li>
+        <li><a href="#">Contact Support</a></li>
+      </ul>
+    </div>
+
+    <div class="f-col">
+      <div class="f-col-title">CONTACT</div>
+      <ul>
+        <li>
+          <div class="f-col-sub">SUPPORT</div>
+          <a href="mailto:support@seneca.com">support@seneca.com</a>
+        </li>
+        <li>
+          <div class="f-col-sub">GENERAL</div>
+          <a href="mailto:hello@seneca.com">hello@seneca.com</a>
+        </li>
+        <li>
+          <div class="f-col-sub">BUSINESS</div>
+          <a href="mailto:business@seneca.com">business@seneca.com</a>
+        </li>
+        <li>
+          <div class="f-col-sub">PHONE</div>
+          <span>+62 XXX-XXXX-XXXX</span>
+        </li>
+        <li>
+          <div class="f-col-sub">LOCATION</div>
+          <span>Tangerang, Indonesia</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="f-col">
+      <div class="f-col-title">SOCIAL</div>
+      <ul>
+        <li><a href="#">Instagram &mdash; @seneca</a></li>
+        <li><a href="#">YouTube &mdash; Seneca Creative</a></li>
+        <li><a href="#">TikTok &mdash; @seneca</a></li>
+        <li><a href="#">X (Twitter) &mdash; @seneca</a></li>
+        <li><a href="#">Discord &mdash; Seneca Community</a></li>
+      </ul>
+    </div>
+
+    <div class="f-col">
+      <div class="f-col-title">LEGAL</div>
+      <ul>
+        <li><a href="#">Terms of Service</a></li>
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">License Agreement</a></li>
+        <li><a href="#">Cookie Policy</a></li>
+      </ul>
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    <div class="f-logo">SENECA</div>
+    <div class="f-copy">© 2026 Seneca Creative Suite. All rights reserved.</div>
+  </div>
+
+  <!-- Slide-up hover panel -->
+  <div class="f-hover-panel">
+    <a href="#">PRIVACY</a>
+    <a href="#">TERMS</a>
+    <a href="#">CONTACT</a>
+  </div>
+</footer>
+
+<script>
+(function(){
+  const rN=['I','II','III','IV','V','VI','VII','VIII','IX','X'];
+  function toR(n){return rN[n]||String(n+1);}
+
+  const ht=document.getElementById('ht'),hd=document.getElementById('hd'),hctr=document.getElementById('hctr');
+  let hc=0,htmr;
+  function hN(){return ht.children.length;}
+  function hBD(){hd.innerHTML='';for(let i=0;i<hN();i++){const d=document.createElement('span');d.className='sd'+(i===hc?' on':'');d.onclick=()=>{hG(i);hR();};hd.appendChild(d);}}
+  function hG(i){ht.children[hc].classList.remove('active');hc=((i%hN())+hN())%hN();ht.style.transform='translateX(-'+(hc*100)+'%)';hctr.textContent=toR(hc)+' / '+toR(hN()-1);ht.children[hc].classList.add('active');document.querySelectorAll('#hd .sd').forEach((d,j)=>{d.className='sd'+(j===hc?' on':'');});}
+  function hR(){clearInterval(htmr);htmr=setInterval(()=>hG(hc+1),5000);}
+  document.getElementById('hp').onclick=()=>{hG(hc-1);hR();};
+  document.getElementById('hn').onclick=()=>{hG(hc+1);hR();};
+  hBD();hR();
+
+  const tt=document.getElementById('tt'),tprog=document.getElementById('tprog'),tCtr=document.getElementById('tCtr');
+  let tc=0,ttmr;
+  function tN(){return tt.children.length;}
+  function tBP(){tprog.innerHTML='';for(let i=0;i<tN();i++){const b=document.createElement('div');b.className='tp'+(i===tc?' on':'');b.onclick=()=>{tG(i);tR();};tprog.appendChild(b);}}
+  function tG(i){tc=((i%tN())+tN())%tN();tt.style.transform='translateX(-'+(tc*100)+'%)';tCtr.textContent=toR(tc)+' / '+toR(tN()-1);document.querySelectorAll('.tp').forEach((b,j)=>{b.className='tp'+(j===tc?' on':'');});}
+  function tR(){clearInterval(ttmr);ttmr=setInterval(()=>tG(tc+1),6500);}
+  document.getElementById('tp2').onclick=()=>{tG(tc-1);tR();};
+  document.getElementById('tn2').onclick=()=>{tG(tc+1);tR();};
+  tBP();tR();
+
+  function addSwipe(el,pv,nx){let sx=0;el.addEventListener('touchstart',e=>{sx=e.touches[0].clientX;},{passive:true});el.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>40){dx<0?nx():pv();}},{passive:true});}
+  addSwipe(ht,()=>{hG(hc-1);hR();},()=>{hG(hc+1);hR();});
+  addSwipe(tt,()=>{tG(tc-1);tR();},()=>{tG(tc+1);tR();});
+})();
+</script>
+</body>
+</html>
